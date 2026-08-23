@@ -1,8 +1,41 @@
 ---
+import { Image } from 'astro:assets';
+import CarImage from '../assets/car.jpg';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+const techStack = [
+  "Python",
+  "FastAPI",
+  "SQLAlchemy",
+  "PostgreSQL",
+  "MySQL",
+  "Docker",
+  "React",
+  "Astro",
+  "Git",
+  "Linux",
+];
+
+const focusAreas = [
+  {
+    title: "Python & Backend",
+    description:
+      "I enjoy building practical backend systems with Python, especially APIs, data models, authentication, database design, and service architecture.",
+  },
+  {
+    title: "AI & Agents",
+    description:
+      "I'm exploring modern AI application development, including LangChain, LangGraph, RAG, tool calling, agent workflows, and LLM-based applications.",
+  },
+  {
+    title: "Data & Engineering",
+    description:
+      "With a background in Data Science and Big Data, I'm interested in turning data, automation, and software engineering into useful real-world systems.",
+  },
+];
 ---
 
 <!doctype html>
@@ -12,38 +45,244 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 	</head>
 	<body>
 		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
+		<main class="about">
+			<section class="hero">
+				<p>Hello, Song Yuyang here.</p>
+
+				<p>
+					I'm a Data Science and Big Data student with a strong interest in Python backend development and modern AI applications.
+				</p>
+
+				<p>
+					I enjoy learning by building real projects — from FastAPI services and database-backed management systems to server monitoring tools, data platforms, and AI agent experiments.
+				</p>
+
+				<figure class="hero-photo">
+					<Image
+						src={CarImage}
+						width={820}
+						height={547}
+						alt="Audi R8 parked on a tree-lined driveway"
+						loading="lazy"
+					/>
+				</figure>
+
+
+			</section>
+
+			<section class="section">
+				<h2>About Me</h2>
+
+				<div class="prose">
+					<p>
+						My main programming language is Python. Rather than treating it only as a scripting or
+						data-analysis language, I'm particularly interested in understanding Python as an
+						engineering tool — its data model, typing system, concurrency model, web ecosystem,
+						database tooling, and the design patterns behind production applications.
+					</p>
+
+					<p>
+						On the backend side, I mainly work with FastAPI, SQLAlchemy and relational databases. I
+						care about API design, validation, dependency injection, authentication, database
+						modeling, service layering, and keeping projects maintainable as they grow.
+					</p>
+
+					<p>
+						I'm also actively exploring the AI application ecosystem. My current interests include
+						LLM agents, tool calling, LangChain, LangGraph, RAG, structured output, multimodal models,
+						and how AI systems can be integrated into practical software instead of remaining
+						isolated demos.
+					</p>
+
+					<p>
+						Outside application code, I also spend time on the surrounding engineering stack: Docker,
+						Linux servers, Git workflows, networking, deployment, monitoring, frontend integration,
+						and developer tooling. I like understanding how the entire system works rather than
+						focusing on only one layer.
+					</p>
+				</div>
+			</section>
+
+
+			<section class="section">
+				<h2>Projects & Practice</h2>
+
+				<div class="prose">
+					<p>
+						Most of my learning is project-driven. I've worked on small production and
+						order-management systems, large-file data platforms, server monitoring tools,
+						hardware-oriented monitoring interfaces, and experiments around AI agents and automation.
+					</p>
+
+					<p>
+						These projects are where I test architectural ideas, database models, API conventions,
+						concurrency strategies, deployment workflows and UI decisions. I prefer learning a
+						concept deeply enough to use it in an actual system.
+					</p>
+				</div>
+			</section>
+
+			<section class="section">
+				<h2>Tech Stack</h2>
+
+				<div class="tech-stack">
+					{techStack.map((tech) => <span class="tech">{tech}</span>)}
+				</div>
+			</section>
+
+			<section class="section">
+				<h2>This Blog</h2>
+
+				<div class="prose">
+					<p>
+						This site is my long-term technical notebook and personal space on the web. I use it to
+						organize what I learn, document problems I've solved, record project decisions, and turn
+						fragmented notes into knowledge that I can revisit later.
+					</p>
+
+					<p>
+						You'll mostly find posts about Python, backend engineering, FastAPI, databases, AI agents,
+						developer tools, Linux, networking, and whatever I'm currently building or trying to
+						understand.
+					</p>
+				</div>
+			</section>
 		</main>
 		<Footer />
 	</body>
 </html>
+
+<style>
+	.about {
+		box-sizing: border-box;
+		width: 100%;
+		max-width: 960px;
+		margin: 0 auto;
+		padding: 6rem clamp(2rem, 6vw, 4rem);
+	}
+
+	.hero {
+		width: 100%;
+		max-width: 720px;
+		margin: 0 auto 6rem;
+	}
+
+
+	h1 {
+		max-width: 720px;
+		margin: 0;
+		font-size: clamp(2rem, 5vw, 3.5rem);
+		line-height: 1;
+		letter-spacing: -0.045em;
+	}
+
+	h1 span {
+		opacity: 0.5;
+	}
+
+	.intro {
+		max-width: 680px;
+		margin-top: 2rem;
+		font-size: 1rem;
+		line-height: 1.8;
+		opacity: 0.75;
+	}
+
+	.hero-photo {
+		margin: 3rem 0 0;
+		overflow: hidden;
+		border-radius: 16px;
+	}
+
+	.hero-photo :global(img) {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+
+	.section {
+		width: 100%;
+		max-width: 720px;
+		margin: 5rem auto 0;
+	}
+
+	.section h2 {
+		margin-bottom: 1.5rem;
+		font-size: 1.5rem;
+		letter-spacing: -0.02em;
+	}
+
+	.prose {
+		max-width: 720px;
+	}
+
+	.prose p {
+		margin: 0 0 1.4rem;
+		line-height: 1.8;
+		opacity: 0.76;
+	}
+
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 1rem;
+	}
+
+	.card {
+		padding: 1.25rem;
+		border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+		border-radius: 12px;
+	}
+
+	.card h3 {
+		margin: 0 0 0.75rem;
+		font-size: 1rem;
+	}
+
+	.card p {
+		margin: 0;
+		font-size: 1rem;
+		line-height: 1.65;
+		opacity: 0.65;
+	}
+
+	.tech-stack {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+	}
+
+	.tech {
+		padding: 0.5rem 0.75rem;
+		border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+		border-radius: 8px;
+		font-size: 1rem;
+		opacity: 0.72;
+		transition:
+			opacity 0.2s ease,
+			transform 0.2s ease;
+	}
+
+	.tech:hover {
+		opacity: 1;
+		transform: translateY(-1px);
+	}
+
+	@media (max-width: 700px) {
+		.about {
+			padding-top: 4rem;
+		}
+
+		.hero {
+			margin-bottom: 4rem;
+		}
+
+		.section {
+			margin-top: 4rem;
+		}
+
+		.grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

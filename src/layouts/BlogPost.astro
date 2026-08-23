@@ -6,9 +6,10 @@ import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 
-type Props = CollectionEntry<'blog'>['data'];
+type BlogData = CollectionEntry<'blog'>['data'];
+type Props = Omit<BlogData, 'city'> & { city?: string };
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, city } = Astro.props;
 ---
 
 <html lang="en">
@@ -30,27 +31,70 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				box-shadow: var(--box-shadow);
 			}
 			.prose {
-				width: 720px;
+				width: clamp(720px, 33.333vw, 1080px);
 				max-width: calc(100% - 2em);
 				margin: auto;
 				padding: 1em;
 				color: rgb(var(--gray-dark));
+				font-size: 15px;
 			}
 			.title {
+				display: grid;
+				grid-template-columns: minmax(0, 1fr) auto;
+				align-items: center;
+				gap: 1.25rem;
 				margin-bottom: 1em;
-				padding: 1em 0;
-				text-align: center;
-				line-height: 1;
+				padding: 0.5em 0;
+				text-align: left;
 			}
 			.title h1 {
-				margin: 0 0 0.5em 0;
+				margin: 0;
+				font-size: 1.333em;
+				line-height: 1.25;
 			}
-			.date {
-				margin-bottom: 0.5em;
+			.metadata {
+				padding-left: 1.25rem;
+				border-left: 1px solid rgb(var(--gray-light));
+				text-align: right;
+			}
+			.post-meta {
+				display: flex;
+				align-items: baseline;
+				justify-content: flex-end;
+				gap: 0.75rem;
+				margin: 0;
 				color: rgb(var(--gray));
+				font-size: 1em;
+				line-height: 1.5;
 			}
 			.last-updated-on {
+				margin-top: 0.25em;
+				color: rgb(var(--gray));
+				font-size: 1em;
 				font-style: italic;
+			}
+			.article-divider {
+				margin: 0 0 1em;
+			}
+			@media (max-width: 800px) {
+				.prose {
+					width: calc(100% - 2em);
+					max-width: none;
+				}
+				.title {
+					grid-template-columns: 1fr;
+					gap: 0.5em;
+				}
+				.metadata {
+					padding: 0.5em 0 0;
+					border-top: 1px solid rgb(var(--gray-light));
+					border-left: 0;
+					text-align: left;
+				}
+				.post-meta {
+					justify-content: flex-start;
+					flex-wrap: wrap;
+				}
 			}
 		</style>
 	</head>
@@ -64,8 +108,12 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				</div>
 				<div class="prose">
 					<div class="title">
-						<div class="date">
-							<FormattedDate date={pubDate} />
+						<h1>{title}</h1>
+						<div class="metadata">
+							<div class="post-meta">
+								<FormattedDate date={pubDate} />
+								{city && <span>{city}</span>}
+							</div>
 							{
 								updatedDate && (
 									<div class="last-updated-on">
@@ -74,9 +122,8 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 								)
 							}
 						</div>
-						<h1>{title}</h1>
-						<hr />
 					</div>
+					<hr class="article-divider" />
 					<slot />
 				</div>
 			</article>

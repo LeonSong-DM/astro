@@ -4,15 +4,15 @@ import HeaderLink from './HeaderLink.astro';
 ---
 
 <header>
-	<nav>
-		<h2><a href="/">{SITE_TITLE}</a></h2>
+	<nav aria-label="Primary navigation">
+		<h2><a class="brand" href="/">{SITE_TITLE}</a></h2>
 		<div class="internal-links">
 			<HeaderLink href="/">Home</HeaderLink>
 			<HeaderLink href="/blog">Blog</HeaderLink>
 			<HeaderLink href="/about">About</HeaderLink>
 		</div>
 		<div class="social-links">
-			<a href="https://m.webtoo.ls/@astro" target="_blank">
+			<a href="https://m.webtoo.ls/@astro" target="_blank" rel="noreferrer">
 				<span class="sr-only">Follow Astro on Mastodon</span>
 				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
 					><path
@@ -21,7 +21,7 @@ import HeaderLink from './HeaderLink.astro';
 					></path></svg
 				>
 			</a>
-			<a href="https://twitter.com/astrodotbuild" target="_blank">
+			<a href="https://twitter.com/astrodotbuild" target="_blank" rel="noreferrer">
 				<span class="sr-only">Follow Astro on Twitter</span>
 				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
 					><path
@@ -30,7 +30,7 @@ import HeaderLink from './HeaderLink.astro';
 					></path></svg
 				>
 			</a>
-			<a href="https://github.com/withastro/astro" target="_blank">
+			<a href="https://github.com/withastro/astro" target="_blank" rel="noreferrer">
 				<span class="sr-only">Go to Astro's GitHub repo</span>
 				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
 					><path
@@ -44,40 +44,90 @@ import HeaderLink from './HeaderLink.astro';
 </header>
 <style>
 	header {
+		width: 100%;
 		margin: 0;
-		padding: 0 1em;
-		background: white;
-		box-shadow: 0 2px 8px rgba(var(--black), 5%);
-	}
-	h2 {
-		margin: 0;
-		font-size: 1em;
+		padding: 0;
+		border-bottom: 1px solid rgba(var(--gray), 18%);
+		background: transparent;
+		box-shadow: none;
 	}
 
-	h2 a,
-	h2 a.active {
+	h2 {
+		margin: 0;
+		font-size: 1rem;
+		font-weight: 700;
+		letter-spacing: -0.02em;
+	}
+
+	.brand {
+		color: rgb(var(--black));
 		text-decoration: none;
 	}
+
 	nav {
+		box-sizing: border-box;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		gap: 1.5rem;
+		width: min(720px, calc(100% - 4rem));
+		min-height: 64px;
+		margin: 0 auto;
 	}
+
 	nav a {
-		padding: 1em 0.5em;
-		color: var(--black);
-		border-bottom: 4px solid transparent;
+		color: rgb(var(--gray-dark));
 		text-decoration: none;
+		transition:
+			color 0.2s ease,
+			opacity 0.2s ease;
 	}
-	nav a.active {
-		text-decoration: none;
-		border-bottom-color: var(--accent);
+
+	nav a:hover {
+		color: rgb(var(--black));
 	}
+
+	.internal-links {
+		display: flex;
+		align-items: center;
+		gap: 1.5rem;
+		margin-left: auto;
+	}
+
 	.social-links,
 	.social-links a {
 		display: flex;
+		align-items: center;
 	}
+
+	.social-links {
+		gap: 0.75rem;
+	}
+
+	.social-links a {
+		opacity: 0.5;
+	}
+
+	.social-links a:hover {
+		opacity: 1;
+	}
+
+	.social-links svg {
+		width: 18px;
+		height: 18px;
+	}
+
 	@media (max-width: 720px) {
+		nav {
+			gap: 1rem;
+			width: calc(100% - 3rem);
+			min-height: 56px;
+		}
+
+		.internal-links {
+			gap: 1rem;
+		}
+
 		.social-links {
 			display: none;
 		}
