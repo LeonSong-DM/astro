@@ -1,6 +1,7 @@
 ---
 title: "优雅的管理配置文件"
 description: "介绍单机配置与集中分发配置的管理方式"
+category: "Development"
 pubDate: "Aug 25, 2026"
 city: "Shanghai, China"
 ---

@@ -1,6 +1,7 @@
 ---
 title: "LDV System Introduction"
 description: "LDV is a equipment for ECG sampling"
+category: "Works"
 pubDate: "Aug 23, 2026"
 city: "Shanghai, China"
 ---

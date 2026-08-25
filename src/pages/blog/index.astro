@@ -10,6 +10,15 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+const categories = [...new Set(posts.map((post) => post.data.category))].sort((a, b) =>
+	a.localeCompare(b, 'zh-CN'),
+);
+const categoryCounts = new Map(
+	categories.map((category) => [
+		category,
+		posts.filter((post) => post.data.category === category).length,
+	]),
+);
 ---
 
 <!doctype html>
@@ -17,10 +26,71 @@ const posts = (await getCollection('blog')).sort(
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		<style>
-			main {
+			.blog-layout {
+				position: relative;
+				display: block;
 				width: 720px;
 			}
-			ul {
+			.category-filter {
+				position: absolute;
+				top: 3em;
+				left: calc(-144px - 2rem);
+				width: 144px;
+			}
+			.category-filter h2 {
+				margin: 0 0 0.75rem;
+				font-size: 0.9rem;
+				letter-spacing: -0.01em;
+			}
+			.category-options {
+				display: flex;
+				flex-direction: column;
+				gap: 0.25rem;
+			}
+			.category-button {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 0.75rem;
+				width: 100%;
+				padding: 0.45rem 0.6rem;
+				border: 0;
+				border-radius: 6px;
+				color: rgb(var(--gray));
+				font: inherit;
+				text-align: left;
+				background: transparent;
+				cursor: pointer;
+				transition:
+					color 0.2s ease,
+					background-color 0.2s ease;
+			}
+			.category-button:hover {
+				color: rgb(var(--gray-dark));
+				background: rgba(var(--gray), 8%);
+			}
+			.category-button.active {
+				color: rgb(var(--black));
+				font-weight: 600;
+				background: rgba(var(--gray), 12%);
+			}
+			.category-button:focus-visible {
+				outline: 2px solid var(--accent);
+				outline-offset: 2px;
+			}
+			.category-count {
+				font-size: 0.8em;
+				opacity: 0.65;
+			}
+			.post-list {
+				min-width: 0;
+			}
+			.result-summary {
+				margin: 0 0 1rem;
+				color: rgb(var(--gray));
+				font-size: 0.9rem;
+			}
+			.posts {
 				display: flex;
 				flex-direction: column;
 				gap: 1rem;
@@ -28,17 +98,20 @@ const posts = (await getCollection('blog')).sort(
 				margin: 0;
 				padding: 0;
 			}
-			ul li {
+			.posts li {
 				width: 100%;
 			}
-			ul li * {
+			.posts li[hidden] {
+				display: none;
+			}
+			.posts li * {
 				transition: 0.2s ease;
 			}
-			ul li img {
+			.posts li img {
 				margin-bottom: 0.5rem;
 				border-radius: 12px;
 			}
-			ul li a {
+			.posts li a {
 				display: block;
 				text-decoration: none;
 			}
@@ -49,7 +122,8 @@ const posts = (await getCollection('blog')).sort(
 			}
 			.title,
 			.date,
-			.city {
+			.city,
+			.post-category {
 				margin: 0;
 				color: rgb(var(--gray-dark));
 				font-size: 1rem;
@@ -64,20 +138,46 @@ const posts = (await getCollection('blog')).sort(
 			.city {
 				white-space: nowrap;
 			}
+			.post-category {
+				padding: 0 0.4rem;
+				border-radius: 4px;
+				color: rgb(var(--gray));
+				font-size: 0.8rem;
+				white-space: nowrap;
+				background: rgba(var(--gray), 10%);
+			}
 			.description {
 				margin: 0.15rem 0 0;
 				color: rgb(var(--gray));
 				font-size: 1rem;
 				line-height: 1.7;
 			}
-			ul li a:hover h4,
-			ul li a:hover .date,
-			ul li a:hover .city,
-			ul li a:hover .description {
+			.posts li a:hover h4,
+			.posts li a:hover .date,
+			.posts li a:hover .city,
+			.posts li a:hover .description {
 				color: rgb(var(--accent));
 			}
-			ul a:hover img {
+			.posts a:hover img {
 				box-shadow: var(--box-shadow);
+			}
+			.empty-state {
+				margin: 2rem 0;
+				color: rgb(var(--gray));
+			}
+			@media (max-width: 1080px) {
+				.category-filter {
+					position: static;
+					width: auto;
+					margin-bottom: 1.5rem;
+				}
+				.category-options {
+					flex-direction: row;
+					flex-wrap: wrap;
+				}
+				.category-button {
+					width: auto;
+				}
 			}
 			@media (max-width: 720px) {
 				.post-heading {
@@ -89,18 +189,47 @@ const posts = (await getCollection('blog')).sort(
 	</head>
 	<body>
 		<Header />
-		<main>
-			<section>
-				<ul>
+		<main class="blog-layout" data-blog-filter>
+			<aside class="category-filter" aria-labelledby="category-filter-title">
+				<h2 id="category-filter-title">分类</h2>
+				<div class="category-options" role="group" aria-label="按分类筛选文章">
+					<button
+						type="button"
+						class="category-button active"
+						data-category="all"
+						aria-pressed="true"
+					>
+						<span>全部</span>
+						<span class="category-count">{posts.length}</span>
+					</button>
+					{
+						categories.map((category) => (
+							<button
+								type="button"
+								class="category-button"
+								data-category={category}
+								aria-pressed="false"
+							>
+								<span>{category}</span>
+								<span class="category-count">{categoryCounts.get(category)}</span>
+							</button>
+						))
+					}
+				</div>
+			</aside>
+			<section class="post-list" aria-label="文章列表" aria-live="polite">
+				<p class="result-summary" data-result-summary>共 {posts.length} 篇文章</p>
+				<ul class="posts">
 					{
 						posts.map((post) => (
-							<li>
+							<li data-post data-category={post.data.category}>
 								<a href={`/blog/${post.id}/`}>
 									{post.data.heroImage && (
 										<Image width={720} height={360} src={post.data.heroImage} alt="" />
 									)}
 									<div class="post-heading">
 										<h4 class="title">{post.data.title}</h4>
+										<span class="post-category">{post.data.category}</span>
 										<p class="date">
 											<FormattedDate date={post.data.pubDate} />
 										</p>
@@ -112,8 +241,57 @@ const posts = (await getCollection('blog')).sort(
 						))
 					}
 				</ul>
+				<p class="empty-state" data-empty-state hidden>该分类下暂时没有文章。</p>
 			</section>
 		</main>
 		<Footer />
+		<script>
+			const filterRoot = document.querySelector<HTMLElement>('[data-blog-filter]');
+
+			if (filterRoot) {
+				const buttons = [
+					...filterRoot.querySelectorAll<HTMLButtonElement>('.category-button[data-category]'),
+				];
+				const postItems = [...filterRoot.querySelectorAll<HTMLElement>('[data-post]')];
+				const summary = filterRoot.querySelector<HTMLElement>('[data-result-summary]');
+				const emptyState = filterRoot.querySelector<HTMLElement>('[data-empty-state]');
+
+				const selectCategory = (category: string) => {
+					let visibleCount = 0;
+
+					for (const post of postItems) {
+						const isVisible = category === 'all' || post.dataset.category === category;
+						post.hidden = !isVisible;
+						if (isVisible) visibleCount += 1;
+					}
+
+					for (const button of buttons) {
+						const isActive = button.dataset.category === category;
+						button.classList.toggle('active', isActive);
+						button.setAttribute('aria-pressed', String(isActive));
+					}
+
+					if (summary) {
+						summary.textContent =
+							category === 'all' ? `共 ${visibleCount} 篇文章` : `${category} · ${visibleCount} 篇文章`;
+					}
+					if (emptyState) emptyState.hidden = visibleCount !== 0;
+
+					const url = new URL(window.location.href);
+					if (category === 'all') url.searchParams.delete('category');
+					else url.searchParams.set('category', category);
+					window.history.replaceState(null, '', url);
+				};
+
+				for (const button of buttons) {
+					button.addEventListener('click', () => selectCategory(button.dataset.category ?? 'all'));
+				}
+
+				const requestedCategory = new URL(window.location.href).searchParams.get('category');
+				if (requestedCategory && buttons.some((button) => button.dataset.category === requestedCategory)) {
+					selectCategory(requestedCategory);
+				}
+			}
+		</script>
 	</body>
 </html>
