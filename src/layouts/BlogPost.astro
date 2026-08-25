@@ -76,6 +76,26 @@ const { title, description, pubDate, updatedDate, heroImage, city } = Astro.prop
 			.article-divider {
 				margin: 0 0 1em;
 			}
+			.content :global(h1),
+			.content :global(h2),
+			.content :global(h3),
+			.content :global(h4) {
+				margin: 2em 0 0.75em;
+				line-height: 1.35;
+				letter-spacing: -0.015em;
+			}
+			.content :global(h1) {
+				font-size: 1.6em;
+			}
+			.content :global(h2) {
+				font-size: 1.35em;
+			}
+			.content :global(h3) {
+				font-size: 1.15em;
+			}
+			.content :global(h4) {
+				font-size: 1.05em;
+			}
 			@media (max-width: 800px) {
 				.prose {
 					width: calc(100% - 2em);
@@ -124,7 +144,9 @@ const { title, description, pubDate, updatedDate, heroImage, city } = Astro.prop
 						</div>
 					</div>
 					<hr class="article-divider" />
-					<slot />
+					<div class="content">
+						<slot />
+					</div>
 				</div>
 			</article>
 		</main>

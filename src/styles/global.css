@@ -1,5 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
+@font-face {
+	font-family: 'LXGW WenKai';
+	src: url('../assets/fonts/lxgw-wenkai-medium.ttf') format('truetype');
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+	unicode-range:
+		U+2E80-2EFF,
+		U+2F00-2FDF,
+		U+2FF0-2FFF,
+		U+3000-303F,
+		U+31C0-31EF,
+		U+3400-4DBF,
+		U+4E00-9FFF,
+		U+F900-FAFF,
+		U+20000-2A6DF,
+		U+2A700-2B73F,
+		U+2B740-2B81F,
+		U+2B820-2CEAF,
+		U+2CEB0-2EBEF,
+		U+30000-3134F,
+		U+31350-323AF;
+}
+
 /*
   The CSS in this style tag is based off of Bear Blog's default CSS.
   https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
@@ -35,7 +59,7 @@
 }
 
 body {
-	font-family: 'Inter', sans-serif;
+	font-family: 'Inter', 'LXGW WenKai', sans-serif;
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
