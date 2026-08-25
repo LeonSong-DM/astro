@@ -1,8 +1,40 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@font-face {
+	font-family: 'Maple Mono NL';
+	src: url('../assets/fonts/maple-mono-nl-regular.woff2') format('woff2');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+	unicode-range:
+		U+0000-024F,
+		U+1E00-1EFF,
+		U+2000-206F,
+		U+2070-209F,
+		U+20A0-20CF,
+		U+2100-214F,
+		U+2190-23FF,
+		U+2500-26FF;
+}
+
+@font-face {
+	font-family: 'Maple Mono NL';
+	src: url('../assets/fonts/maple-mono-nl-bold.woff2') format('woff2');
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+	unicode-range:
+		U+0000-024F,
+		U+1E00-1EFF,
+		U+2000-206F,
+		U+2070-209F,
+		U+20A0-20CF,
+		U+2100-214F,
+		U+2190-23FF,
+		U+2500-26FF;
+}
 
 @font-face {
 	font-family: 'LXGW WenKai';
-	src: url('../assets/fonts/lxgw-wenkai-medium.ttf') format('truetype');
+	src: url('../assets/fonts/lxgw-wenkai-medium-subset.woff2') format('woff2');
 	font-weight: 500;
 	font-style: normal;
 	font-display: swap;
@@ -59,7 +91,7 @@
 }
 
 body {
-	font-family: 'Inter', 'LXGW WenKai', sans-serif;
+	font-family: 'Maple Mono NL', 'LXGW WenKai', sans-serif;
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;

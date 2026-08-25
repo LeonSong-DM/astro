@@ -54,6 +54,17 @@ All commands are run from the root of the project, from a terminal:
 | `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `npm run astro -- --help` | Get help using the Astro CLI                     |
 
+### Chinese font subset
+
+The deployed site uses a WOFF2 subset of LXGW WenKai generated from the CJK characters currently used in `src/` and `public/`. After adding or changing Chinese content, regenerate it before building:
+
+```sh
+npm run font:subset
+npm run build
+```
+
+The subset command requires `pyftsubset` and `woff2_compress` on `PATH`. Regular installs and builds use the committed WOFF2 file and do not require these tools.
+
 ## 👀 Want to learn more?
 
 Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).

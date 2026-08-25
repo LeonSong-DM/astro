@@ -3,3 +3,4 @@ dist
 .git
 .astro
 .DS_Store
+src/assets/fonts/lxgw-wenkai-medium.ttf

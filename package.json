@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "font:subset": "node scripts/subset-font.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },
