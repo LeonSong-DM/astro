@@ -100,6 +100,8 @@ const categoryCounts = new Map(
 			}
 			.posts li {
 				width: 100%;
+				padding-bottom: 1rem;
+				border-bottom: 1px solid rgba(var(--gray), 18%);
 			}
 			.posts li[hidden] {
 				display: none;
@@ -115,10 +117,27 @@ const categoryCounts = new Map(
 				display: block;
 				text-decoration: none;
 			}
-			.post-heading {
+			.post-row {
+				display: grid;
+				grid-template-columns: 18px minmax(0, 1fr);
+				align-items: start;
+				gap: 0.65rem;
+			}
+			.post-row + .post-row {
+				margin-top: 0.35rem;
+			}
+			.row-icon {
+				width: 16px;
+				height: 16px;
+				margin-top: 0.3rem;
+				color: rgb(var(--gray));
+				stroke-width: 1.75;
+			}
+			.post-meta {
 				display: flex;
 				align-items: baseline;
-				gap: 0.75rem;
+				flex-wrap: wrap;
+				gap: 0.25rem 0.75rem;
 			}
 			.title,
 			.date,
@@ -131,8 +150,7 @@ const categoryCounts = new Map(
 			}
 			.title {
 				font-weight: 700;
-				text-decoration: underline;
-				text-underline-offset: 0.15em;
+				text-decoration: none;
 			}
 			.date,
 			.city {
@@ -147,11 +165,12 @@ const categoryCounts = new Map(
 				background: rgba(var(--gray), 10%);
 			}
 			.description {
-				margin: 0.15rem 0 0;
+				margin: 0;
 				color: rgb(var(--gray));
 				font-size: 1rem;
 				line-height: 1.7;
 			}
+			.posts li a:hover .row-icon,
 			.posts li a:hover h4,
 			.posts li a:hover .date,
 			.posts li a:hover .city,
@@ -177,12 +196,6 @@ const categoryCounts = new Map(
 				}
 				.category-button {
 					width: auto;
-				}
-			}
-			@media (max-width: 720px) {
-				.post-heading {
-					flex-wrap: wrap;
-					gap: 0.25rem 0.75rem;
 				}
 			}
 		</style>
@@ -227,15 +240,56 @@ const categoryCounts = new Map(
 									{post.data.heroImage && (
 										<Image width={720} height={360} src={post.data.heroImage} alt="" />
 									)}
-									<div class="post-heading">
+									<div class="post-row post-title-row">
+										<svg
+											class="row-icon"
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											aria-hidden="true"
+										>
+											<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+											<path d="M14 2v6h6M8 13h8M8 17h6" />
+										</svg>
 										<h4 class="title">{post.data.title}</h4>
-										<span class="post-category">{post.data.category}</span>
-										<p class="date">
-											<FormattedDate date={post.data.pubDate} />
-										</p>
-										<p class="city">{post.data.city}</p>
 									</div>
-									<p class="description">{post.data.description}</p>
+									<div class="post-row post-meta-row">
+										<svg
+											class="row-icon"
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											aria-hidden="true"
+										>
+											<path d="M20 12 12 20l-8-8V4h8z" />
+											<circle cx="8.5" cy="8.5" r="1.5" />
+										</svg>
+										<div class="post-meta">
+											<span class="post-category">{post.data.category}</span>
+											<span class="date">
+												<FormattedDate date={post.data.pubDate} />
+											</span>
+											<span class="city">{post.data.city}</span>
+										</div>
+									</div>
+									<div class="post-row post-description-row">
+										<svg
+											class="row-icon"
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											aria-hidden="true"
+										>
+											<path d="M4 6h16M4 10h16M4 14h10M4 18h12" />
+										</svg>
+										<p class="description">{post.data.description}</p>
+									</div>
 								</a>
 							</li>
 						))
