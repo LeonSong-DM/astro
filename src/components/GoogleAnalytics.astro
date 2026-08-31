@@ -1,0 +1,23 @@
+---
+const measurementId = 'G-66T234WC8V';
+---
+
+{
+	import.meta.env.PROD && (
+		<>
+			<!-- Google tag (gtag.js) -->
+			<script
+				is:inline
+				async
+				src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}
+			></script>
+			<script is:inline define:vars={{ measurementId }}>
+				window.dataLayer = window.dataLayer || [];
+				function gtag(){dataLayer.push(arguments);}
+				gtag('js', new Date());
+
+				gtag('config', measurementId);
+			</script>
+		</>
+	)
+}

@@ -6,6 +6,7 @@ import type { ImageMetadata } from 'astro';
 import { ThemeScript } from 'astro-theme-toggle/components';
 import FallbackImage from '../assets/blog-placeholder-1.jpg';
 import { SITE_TITLE } from '../consts';
+import GoogleAnalytics from './GoogleAnalytics.astro';
 
 interface Props {
 	title: string;
@@ -17,6 +18,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 const { title, description, image = FallbackImage } = Astro.props;
 ---
+
+<GoogleAnalytics />
 
 <!-- Global Metadata -->
 <meta charset="utf-8" />
